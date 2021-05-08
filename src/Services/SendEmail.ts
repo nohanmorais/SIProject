@@ -21,14 +21,14 @@ class SendEmail {
             throw new Error("Email nao encontrado!");
         }
 
-        nodemailer.createTestAccount((err, account) => {
+        nodemailer.createTestAccount((err, account) =>  {
             if(err){
                 console.error('Failed to create a testing account' + err.message);
                 return process.exit(1);
             }
         
             let transporter = nodemailer.createTransport({ 
-                host: "smpt.umbler.com",
+                host: "smtp.umbler.com",
                 port: 587,
                 auth: {
                     user: 'admin@luizricardosantos.com.br',
@@ -41,7 +41,7 @@ class SendEmail {
                 to: checkEmail.email,
                 subject: 'Clique no link para cadastrar sua nova senha!',
                 text: 'Ola bem vindo, clique no link para cadastrar sua senha: ',
-            }).then(info => { return info})
+            }).then(info => { return info}).catch(error => {error.message});
         })
 
 
