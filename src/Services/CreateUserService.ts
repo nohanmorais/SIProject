@@ -24,12 +24,10 @@ class CreateUserService {
             throw new Error('email already exists');
         }
 
-        const cryptPassword = await hash(password, 8);
-
         const user = usersRepository.create({
             name,
             email,
-            password: cryptPassword,
+            password,
         });
 
         await usersRepository.save(user)

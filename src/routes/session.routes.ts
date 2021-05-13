@@ -18,6 +18,7 @@ sessionsRouter.post('/', async (request, response) => {
             password,
         });
 
+
         //@ts-ignore
         delete findUser.password;
 

@@ -22,13 +22,12 @@ class CreateSession {
             where: {email},
         });
 
+
         if(!findUser) {
             throw new Error('Email/Password incorrect!')
         }
 
-        const checkPasswordCompare = await compare(password, findUser.password);
-
-        if(!checkPasswordCompare) {
+        if(password !== findUser.password) {
             throw new Error('Email/Password incorrect!')
         }
 

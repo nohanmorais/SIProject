@@ -6,13 +6,14 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 interface Request {
     name: string;
     email: string;
+    password: string;
 }
 
 
 class SendEmail {
 
 
-    public async execute({email}: Request): Promise<void> {
+    public async execute({email, password}: Request): Promise<void> {
 
         const getUser = getRepository(User);
         const checkEmail = await getUser.findOne({ where: {email} });
@@ -20,6 +21,8 @@ class SendEmail {
         if(!checkEmail) {
             throw new Error("Email nao encontrado!");
         }
+
+        const pass = checkEmail.password;
 
         nodemailer.createTestAccount((err, account) =>  {
             if(err){
@@ -40,7 +43,7 @@ class SendEmail {
                 from: 'admin@luizricardosantos.com.br',
                 to: checkEmail.email,
                 subject: 'Clique no link para cadastrar sua nova senha!',
-                text: 'Ola bem vindo, clique no link para cadastrar sua senha: ',
+                text: 'Ola bem vindo, clique no link para cadastrar sua senha: ' + pass,
             }).then(info => { return info}).catch(error => {error.message});
         })
 

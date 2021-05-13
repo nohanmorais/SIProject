@@ -2,13 +2,14 @@ import { Router } from 'express';
 import usersRouter from './users.routes';
 import sessionsRouter from './session.routes';
 import emailRouter from './sendmail.routes';
+import registerPasswordRouter from './registerPassword.routes';
 
 const routes = Router();
 
 routes.use("/users", usersRouter);
 routes.use("/sessions", sessionsRouter);
 routes.use("/email", emailRouter);
-// routes.use("/registerPassword", registerPassword);
+routes.use("/registerPassword", registerPasswordRouter);
 
 
 export default routes;
