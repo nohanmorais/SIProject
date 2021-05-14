@@ -1,5 +1,5 @@
-import { request, Router } from "express";
-import usersRouter from "./users.routes";
+import { Router } from "express";
+
 
 import CreateSession from '../Services/CreateSession';
 

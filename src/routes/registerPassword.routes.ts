@@ -1,23 +1,32 @@
 import { Router } from "express";
 import UpdatePasswordService from "../Services/UpdatePasswordService";
-
+import bcryptjs from 'bcryptjs';
 
 
 const registerPasswordRouter = Router();
 
 registerPasswordRouter.get('/', async(request, response) => {
-
+    
     try { 
-        const {password, newPassword} = request.body;
+
+        const {email, password, newPassword} = request.body;
+
+        const saltRounds = 10;
+        const pass = newPassword;
+        const salt = bcryptjs.genSaltSync(saltRounds);
+        const hash = bcryptjs.hashSync(pass, salt);
+        const newPasspordHashed = hash;
 
         const updatePassword = new UpdatePasswordService();
-        await updatePassword.execute({password, newPassword});
+        await updatePassword.execute({email, password, newPassword: newPasspordHashed});
+
+
     
         return response.status(201).json({ message: 'Senha alterada com sucesso!'});
     
     } catch(err) {
 
-        throw new Error('Verifique se seu token esta correto ou entre em contato com o adm do sistema!');
+        return response.status(400).json({ error: err.message})
     }
 
 });

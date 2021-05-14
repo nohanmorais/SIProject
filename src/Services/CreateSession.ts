@@ -1,6 +1,6 @@
-import { compare } from "bcryptjs";
 import { getRepository } from "typeorm";
 import User from "../models/User";
+import bcryptjs from 'bcryptjs';
 
 interface Request {
     email: string;
@@ -27,7 +27,10 @@ class CreateSession {
             throw new Error('Email/Password incorrect!')
         }
 
-        if(password !== findUser.password) {
+        const validPassword = await bcryptjs.compare(password, findUser.password);
+
+
+        if(!validPassword) {
             throw new Error('Email/Password incorrect!')
         }
 
