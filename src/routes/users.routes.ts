@@ -17,8 +17,6 @@ usersRouter.post('/', async (request, response) => {
         const hash = bcryptjs.hashSync(pass, salt);
         const password = hash;
 
-        const confirmCode = (Math.floor(Math.random() * 10000) + 99999).toString();
-
         console.log(pass);
 
         //Create User object
@@ -28,8 +26,7 @@ usersRouter.post('/', async (request, response) => {
         const user = await createUser.execute({
             name,
             email,
-            password,
-            confirmCode
+            password
         });
 
         //@ts-ignore

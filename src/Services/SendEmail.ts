@@ -1,7 +1,6 @@
 import { getRepository } from "typeorm";
 import User from "../models/User";
 import nodemailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 interface Request {
     name: string;
@@ -22,7 +21,9 @@ class SendEmail {
             throw new Error("Email nao encontrado!");
         }
 
-        const codeNumber = checkEmail.confirmCode;
+        const confirmCode = (Math.floor(Math.random() * 10000) + 99999).toString();
+        checkEmail.confirmCode = confirmCode;
+        await getUser.save(checkEmail);
 
         nodemailer.createTestAccount((err, account) =>  {
             if(err){
@@ -44,7 +45,7 @@ class SendEmail {
                 to: checkEmail.email,
                 subject: 'Clique no link para cadastrar sua nova senha!',
                 text: `<p> Ola bem vindo, clique no link para cadastrar sua senha: 
-                http://localhost:3399/registerPassword </p> O seu codigo de confirmacao e: ${codeNumber}` ,
+                http://localhost:3399/registerPassword </p> O seu codigo de confirmacao e: ${confirmCode}` ,
             }).then(info => { return info}).catch(error => {error.message});
         })
 
