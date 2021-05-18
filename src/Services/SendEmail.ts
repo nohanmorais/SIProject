@@ -13,7 +13,7 @@ interface Request {
 class SendEmail {
 
 
-    public async execute({email, password}: Request): Promise<void> {
+    public async execute({email}: Request): Promise<void> {
 
         const getUser = getRepository(User);
         const checkEmail = await getUser.findOne({ where: {email} });
@@ -22,7 +22,7 @@ class SendEmail {
             throw new Error("Email nao encontrado!");
         }
 
-        const pass = checkEmail.password;
+        const codeNumber = checkEmail.confirmCode;
 
         nodemailer.createTestAccount((err, account) =>  {
             if(err){
@@ -43,7 +43,8 @@ class SendEmail {
                 from: 'admin@luizricardosantos.com.br',
                 to: checkEmail.email,
                 subject: 'Clique no link para cadastrar sua nova senha!',
-                text: 'Ola bem vindo, clique no link para cadastrar sua senha: ' + pass,
+                text: `<p> Ola bem vindo, clique no link para cadastrar sua senha: 
+                http://localhost:3399/registerPassword </p> O seu codigo de confirmacao e: ${codeNumber}` ,
             }).then(info => { return info}).catch(error => {error.message});
         })
 

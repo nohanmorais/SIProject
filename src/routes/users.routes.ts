@@ -12,10 +12,14 @@ usersRouter.post('/', async (request, response) => {
 
         // First Password!
         const saltRounds = 10;
-        const pass = '12344';
+        const pass = (Math.floor(Math.random() * 10000) + 100000).toString();
         const salt = bcryptjs.genSaltSync(saltRounds);
         const hash = bcryptjs.hashSync(pass, salt);
         const password = hash;
+
+        const confirmCode = (Math.floor(Math.random() * 10000) + 99999).toString();
+
+        console.log(pass);
 
         //Create User object
         const createUser = new CreateUserService();
@@ -25,6 +29,7 @@ usersRouter.post('/', async (request, response) => {
             name,
             email,
             password,
+            confirmCode
         });
 
         //@ts-ignore

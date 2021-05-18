@@ -7,12 +7,13 @@ interface Request {
     name: string;
     email: string;
     password: string;
+    confirmCode: string;
 }
 
 
 class CreateUserService {
 
-    public async execute({name, email, password}: Request): Promise<User> {
+    public async execute({name, email, password, confirmCode}: Request): Promise<User> {
 
         const usersRepository = getRepository(User);
 
@@ -28,6 +29,7 @@ class CreateUserService {
             name,
             email,
             password,
+            confirmCode
         });
 
         await usersRepository.save(user)

@@ -1,27 +1,19 @@
 import { Router } from "express";
 import UpdatePasswordService from "../Services/UpdatePasswordService";
-import bcryptjs from 'bcryptjs';
 
 
 const registerPasswordRouter = Router();
 
-registerPasswordRouter.get('/', async(request, response) => {
+registerPasswordRouter.post('/', async(request, response) => {
     
     try { 
 
-        const {email, password, newPassword} = request.body;
-
-        const saltRounds = 10;
-        const pass = newPassword;
-        const salt = bcryptjs.genSaltSync(saltRounds);
-        const hash = bcryptjs.hashSync(pass, salt);
-        const newPasspordHashed = hash;
+        
+        const {id, lastPassword, password} = request.body;
 
         const updatePassword = new UpdatePasswordService();
-        await updatePassword.execute({email, password, newPassword: newPasspordHashed});
+        await updatePassword.execute({id, lastPassword, password});
 
-
-    
         return response.status(201).json({ message: 'Senha alterada com sucesso!'});
     
     } catch(err) {

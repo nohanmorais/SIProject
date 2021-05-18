@@ -4,37 +4,60 @@ import bcryptjs from 'bcryptjs';
 
 
 interface Request {
-    email: string;
+    id: string;
+    lastPassword: string;
     password: string;
-    newPassword: string;
 }
 
 class UpdatePasswordService {
 
-    public async execute({email, password, newPassword}: Request ): Promise<void> {
+    public async execute({id, lastPassword, password}: Request ): Promise<void> {
 
         const usersRepository = getRepository(User);
         
         const findUser = await usersRepository.findOne({
-            where: {email},
+            where: {id},
         });
 
         if(!findUser) {
-            throw new Error('This Token is incorrect!');
+            throw new Error('This User doed not exist!');
         }
 
-        const validPassword = await bcryptjs.compare(password, findUser.password);
-        
-        console.log(password);
-        console.log(findUser.password);
-        console.log(validPassword);
-        
-        if(!validPassword) {
-            throw new Error('Compare Wrong!!');
+        if(lastPassword !== null) {
+
+            const validPassword = await bcryptjs.compare(lastPassword, findUser.lastPassword);
+
+            
+            if(!validPassword) {
+
+                throw new Error('Last Password is wrong!');
+
+            } else {
+
+                const saltRounds = 10;
+                const pass = password;
+                const salt = bcryptjs.genSaltSync(saltRounds);
+                const hash = bcryptjs.hashSync(pass, salt);
+
+                const validNewPassword = await bcryptjs.compare(password, findUser.lastPassword);
+
+                if(validNewPassword) {
+                    throw new Error('The Password have to change!');
+                }
+
+                findUser.password = hash;
+                await usersRepository.save(findUser);
+            }
         }
+        
+        const saltRounds = 10;
+        const pass = password;
+        const salt = bcryptjs.genSaltSync(saltRounds);
+        const hash = bcryptjs.hashSync(pass, salt);
+        
 
-        findUser.password = newPassword;
-
+        findUser.password = hash;
+        findUser.lastPassword = hash;
         await usersRepository.save(findUser);
 
     }

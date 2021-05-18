@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table } from "typeorm";
+import {MigrationInterface, QueryRunner, Table, Unique } from "typeorm";
 
 export class CreateUser1618875978437 implements MigrationInterface {
 
@@ -29,6 +29,17 @@ export class CreateUser1618875978437 implements MigrationInterface {
                         name: "password",
                         type: "varchar",
                         isNullable: false
+                    },
+                    {
+                        name: "lastPassword",
+                        type: "varchar",
+                        isNullable: true
+                    },
+                    {
+                        name: "confirmCode",
+                        type: "varchar",
+                        isNullable: true,
+                        isUnique: true
                     },
                     {
                         name: "created_at",

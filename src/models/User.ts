@@ -20,6 +20,12 @@ class User {
     @Column()
     password: string;
 
+    @Column()
+    lastPassword: string;
+
+    @Column()
+    confirmCode: string;
+
     @CreateDateColumn()
     created_at: Date;
 
