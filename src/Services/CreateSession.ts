@@ -24,14 +24,14 @@ class CreateSession {
 
 
         if(!findUser) {
-            throw new Error('Email/Password incorrect!')
+            throw new Error('Email ou Senha incorreto!')
         }
 
         const validPassword = await bcryptjs.compare(password, findUser.password);
 
 
         if(!validPassword) {
-            throw new Error('Email/Password incorrect!')
+            throw new Error('Email ou Senha incorreto!')
         }
 
         return { 

@@ -6,9 +6,7 @@ import CreateSession from '../Services/CreateSession';
 const sessionsRouter = Router();
 
 sessionsRouter.post('/', async (request, response) => {
-
     try{ 
-
         const { email, password } = request.body;
 
         const session  = new CreateSession();
@@ -18,14 +16,12 @@ sessionsRouter.post('/', async (request, response) => {
             password,
         });
 
-
         //@ts-ignore
         delete findUser.password;
 
         return response.json({message: 'Usuario autorizado!', findUser})
-
     } catch(err) {
-        return response.status(401).json({ error: err.message} )
+        return response.status(401).json({ error: err.message})
     }
 })
 

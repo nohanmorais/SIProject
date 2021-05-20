@@ -54,7 +54,7 @@ class SendEmail {
                 to: checkEmail.email,
                 subject: 'Clique no link para cadastrar sua nova senha!',
                 text: `Ola bem vindo, clique no link para cadastrar sua senha:
-                    http://localhost:3399/registerPassword 
+                    http://localhost:3000/confirmRegister 
                     O seu codigo de confirmacao e: ${confirmCode}` ,
             }).then(info => { return info}).catch(error => {error.message});
         })

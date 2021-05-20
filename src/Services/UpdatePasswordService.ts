@@ -30,7 +30,7 @@ class UpdatePasswordService {
             
             if(!validPassword) {
 
-                throw new Error('Last Password is wrong!');
+                throw new Error('Senha atual está errada!');
 
             } else {
 

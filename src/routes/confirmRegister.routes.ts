@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getRepository } from "typeorm";
+import crypto from 'crypto';
 import User from "../models/User";
 
 
@@ -13,23 +14,19 @@ confirmRegister.post('/', async(request, response) => {
 
         const user = getRepository(User);
         const findUser = await user.findOne({ where: {confirmCode: codeNumber}});
-
-    
+        
         if(!findUser) {
-            throw new Error('Codigo nao encontrado')
+            throw new Error('Codigo não encontrado')
         }
-
-        findUser.confirmCode = "";
+        
+        findUser.confirmCode = crypto.createHash('md5').update("").digest('hex');
 
         user.save(findUser);
 
         const userData = {
             id: findUser.id, 
-            oldPassword: findUser.password,
             lastPassword: findUser.lastPassword
         }
-
-        
         
         return response.status(201).json({ message: 'Codigo encontrado!', userData});
     
