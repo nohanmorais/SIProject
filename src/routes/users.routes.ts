@@ -1,6 +1,7 @@
 import { Router } from "express";
 import CreateUserService from "../Services/CreateUserService";
 import bcryptjs from 'bcryptjs';
+import SendEmail from "../Services/SendEmail";
 
 const usersRouter = Router();
 
@@ -28,6 +29,7 @@ usersRouter.post('/', async (request, response) => {
             email,
             password
         });
+
 
         //@ts-ignore
         delete user.password;

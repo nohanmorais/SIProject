@@ -32,20 +32,30 @@ class SendEmail {
             }
         
             let transporter = nodemailer.createTransport({ 
-                host: "smtp.umbler.com",
+                host: "smtp.gmail.com",
                 port: 587,
+                secure: false,
                 auth: {
-                    user: 'admin@luizricardosantos.com.br',
-                    pass: 'Admin123@',
+                    user: 'admsistemadesi@gmail.com',
+                    pass: 'Senha0021*',
                 } 
             });
+
+            transporter.verify(function(error, success) {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log("Server is ready to take our messages");
+                }
+              });
         
             transporter.sendMail({
                 from: 'admin@luizricardosantos.com.br',
                 to: checkEmail.email,
                 subject: 'Clique no link para cadastrar sua nova senha!',
-                text: `<p> Ola bem vindo, clique no link para cadastrar sua senha: 
-                http://localhost:3399/registerPassword </p> O seu codigo de confirmacao e: ${confirmCode}` ,
+                text: `Ola bem vindo, clique no link para cadastrar sua senha:
+                    http://localhost:3399/registerPassword 
+                    O seu codigo de confirmacao e: ${confirmCode}` ,
             }).then(info => { return info}).catch(error => {error.message});
         })
 
