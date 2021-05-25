@@ -23,6 +23,8 @@ class UpdatePasswordService {
             throw new Error('This User doed not exist!');
         }
 
+        findUser.forgotPassword = "";
+
         if (lastPassword !== null) {
 
             const validPassword = await bcryptjs.compare(lastPassword, findUser.lastPassword);

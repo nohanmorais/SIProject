@@ -28,6 +28,7 @@ class CreateUserService {
             name,
             email,
             password,
+            forgotPassword: "S"
         });
 
         await usersRepository.save(user)
