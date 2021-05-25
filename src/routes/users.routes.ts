@@ -6,8 +6,6 @@ import SendEmail from "../Services/SendEmail";
 const usersRouter = Router();
 
 usersRouter.post('/', async (request, response) => {
-
-
     try { 
         const { name, email } = request.body;
 
@@ -18,8 +16,6 @@ usersRouter.post('/', async (request, response) => {
         const hash = bcryptjs.hashSync(pass, salt);
         const password = hash;
 
-        console.log(pass);
-
         //Create User object
         const createUser = new CreateUserService();
         
@@ -27,22 +23,20 @@ usersRouter.post('/', async (request, response) => {
         const user = await createUser.execute({
             name,
             email,
-            password
+            password,
         });
 
+        const emailPassword = new SendEmail();
+        
+        await emailPassword.execute(email);
 
         //@ts-ignore
         delete user.password;
 
         return response.json({ message: 'Cadastro efetuado com sucesso! ', user})
-
-  
-
     } catch (err) {
         return response.status(401).json({ error: err.message });
     }
-
-
 });
 
 export default usersRouter;

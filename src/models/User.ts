@@ -26,6 +26,9 @@ class User {
     @Column()
     confirmCode: string;
 
+    @Column()
+    forgotPassword: string;
+
     @CreateDateColumn()
     created_at: Date;
 

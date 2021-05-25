@@ -9,7 +9,7 @@ const routes = Router();
 
 routes.use("/users", usersRouter);
 routes.use("/sessions", sessionsRouter);
-routes.use("/email", emailRouter);
+routes.use("/email/", emailRouter);
 routes.use("/registerPassword", registerPasswordRouter);
 routes.use("/confirmRegister", confirmRegister);
 

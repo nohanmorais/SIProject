@@ -22,10 +22,10 @@ confirmRegister.post('/', async(request, response) => {
         findUser.confirmCode = crypto.createHash('md5').update("").digest('hex');
 
         user.save(findUser);
-
+        
         const userData = {
             id: findUser.id, 
-            lastPassword: findUser.lastPassword
+            forgotPassword: findUser.forgotPassword
         }
         
         return response.status(201).json({ message: 'Codigo encontrado!', userData});

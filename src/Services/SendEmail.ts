@@ -3,17 +3,14 @@ import User from "../models/User";
 import nodemailer from "nodemailer";
 
 interface Request {
-    name: string;
     email: string;
-    password: string;
+    forgotPassword: string;
 }
 
 
 class SendEmail {
-
-
-    public async execute({email}: Request): Promise<void> {
-
+    public async execute(email: any, forgotPassword?: any): Promise<void> {
+        
         const getUser = getRepository(User);
         const checkEmail = await getUser.findOne({ where: {email} });
 
@@ -23,6 +20,8 @@ class SendEmail {
 
         const confirmCode = (Math.floor(Math.random() * 10000) + 99999).toString();
         checkEmail.confirmCode = confirmCode;
+        checkEmail.forgotPassword = forgotPassword;
+        
         await getUser.save(checkEmail);
 
         nodemailer.createTestAccount((err, account) =>  {
