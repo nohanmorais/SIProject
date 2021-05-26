@@ -30,6 +30,8 @@ usersRouter.post('/', async (request, response) => {
         
         await emailPassword.execute(email);
 
+        
+
         //@ts-ignore
         delete user.password;
 

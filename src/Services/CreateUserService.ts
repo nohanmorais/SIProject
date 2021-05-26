@@ -1,5 +1,4 @@
 import { getRepository } from 'typeorm';
-import { hash } from 'bcryptjs';
 
 import User from '../models/User';
 
@@ -30,7 +29,7 @@ class CreateUserService {
             password,
             forgotPassword: "S"
         });
-
+        
         await usersRepository.save(user)
 
         return user;

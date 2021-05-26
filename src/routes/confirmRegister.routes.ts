@@ -16,7 +16,7 @@ confirmRegister.post('/', async(request, response) => {
         const findUser = await user.findOne({ where: {confirmCode: codeNumber}});
         
         if(!findUser) {
-            throw new Error('Codigo não encontrado')
+            throw new Error('Codigo não encontrado ou expirado')
         }
         
         findUser.confirmCode = crypto.createHash('md5').update("").digest('hex');
